@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../vue.js"></script>
+    <title>Document</title>
+    <style>
+        .objStyle {
+            width: 20px;
+            background-color: pink;
+        }
+        
+        .arrayStyle {
+            height: 20px;
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="obj" v-bind:class="{objStyle:isActive}" v-on:click="handle">
+        对象语法
+    </div>
+    <div id="array" v-bind:class="[activeClass]" v-on:click="hand">数组语法</div>
+
+
+    <script>
+        // 对象语法
+        var vm1 = new Vue({
+            el: '#obj',
+            data: {
+                isActive: false
+            },
+            methods: {
+                handle() {
+                    this.isActive = !this.isActive
+                }
+            }
+
+        });
+        //数组语法
+        var vm2 = new Vue({
+                el: '#array',
+                data: {
+                    activeClass: '',
+                },
+                methods: {
+                    hand(e) {
+                        console.log(e);
+                        this.activeClass = 'arrayStyle';
+                    }
+                }
+            })
+            //数组和对象方法可以一起使用；
+            //默认的样式会进行保留
+    </script>
+</body>
+
+</html>

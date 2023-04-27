@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        section {
+            width: 200px;
+            height: 200px;
+            background-color: aqua;
+        }
+        
+        .box2 {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+        }
+        
+        .colorstyle {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!--事件修饰符-->
+    <section class="event" v-on:click="handle" v-bind:class="{colorstyle:isclass}">
+        <div class="box2" v-on:click="hand" v-bind:class="{colorstyle:isclass}"></div>
+    </section>
+    <script>
+        var v1 = new Vue({
+                el: '.event',
+                data: {
+                    isclass: false
+                },
+                methods: {
+                    hand() {
+                        console.log('触发了里面事件')
+                        this.isclass = !this.isclass
+                    },
+                    handle() {
+                        console.log('触发了外面事件冒泡')
+                    }
+
+                }
+            })
+            //事件修饰符
+            //.prevent阻止默认事件
+            //.stop阻止冒泡
+    </script>
+</body>
+
+</html>

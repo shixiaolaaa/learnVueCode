@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        ul {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .bnt li {
+            list-style: none;
+            float: left;
+            width: 50px;
+            height: 50px;
+            border: solid 1px;
+            text-align: center;
+            line-height: 50px;
+        }
+        
+        .show {
+            width: 500px;
+            height: 300px;
+            border: 1px solid;
+            overflow: hidden;
+            /* 先隐藏所有标签 */
+        }
+        
+        .show ul {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .show li {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+        /* 控制颜色变化 */
+        
+        .bntcolor {
+            background-color: pink;
+        }
+        /* 控制内容显示 */
+        
+        .toshow {
+            display: block!important;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="tab">
+        <ul class="bnt">
+            <li v-on:click="change(index)" v-for="(item,index) in list" :key="item.id" :class='currentindex==index?"bntcolor":""'>{{item.title}}</li>
+        </ul>
+        <div class="show">
+            <ul>
+                <li v-for="(item,index) in list" :key="item.id" v-bind:class='currentindex==index?"toshow":""'>{{item.section}}</li>
+            </ul>
+        </div>
+    </section>
+    <script>
+        var vm = new Vue({
+                el: '#tab',
+                data: {
+                    currentindex: 0, //当前的序列号
+                    list: [{
+                        id: 0,
+                        title: 1,
+                        section: '这是内容一'
+                    }, {
+                        id: 1,
+                        title: 2,
+                        section: '这是内容二'
+                    }, {
+                        id: 2,
+                        title: 3,
+                        section: '这是内容三'
+                    }, {
+                        id: 3,
+                        title: 4,
+                        section: '这是内容四'
+                    }]
+                },
+                methods: {
+                    change(index) {
+                        console.log(index)
+                        this.currentindex = index
+                        console.log(this.currentindex)
+                    }
+                }
+            })
+            //这里实现切换选项卡的操作其实就是操作类名
+            //如何操作类名就是通过currentindex
+    </script>
+</body>
+
+</html>

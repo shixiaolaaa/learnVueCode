@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+    <style>
+        section {
+            width: 200px;
+            height: 200px
+        }
+        
+        .box2 {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 简单计算器 -->
+    <div class="add">
+        <h1>简单计算器</h1>
+        <input type="text" v-model="a">
+        <input type="text" v-model="b">
+        <button v-on:click='hand'>计算</button> 计算结果
+        <span v-text="c"></span>
+    </div>
+    <!--事件修饰符-->
+    <section>
+        <div class="box2"></div>
+    </section>
+    <script>
+        //简单计算器
+        var v1 = new Vue({
+                el: '.add',
+                data: {
+                    a: '',
+                    b: '',
+                    c: '',
+                },
+                methods: {
+                    hand() {
+                        console.log(1)
+                        this.c = parseInt(this.a) + parseInt(this.b)
+                    }
+                }
+            })
+            //事件修饰符
+            //.prevent阻止默认事件
+            //.stop阻止冒泡
+    </script>
+</body>
+
+</html>
