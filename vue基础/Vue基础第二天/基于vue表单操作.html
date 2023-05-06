@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <section class="input">
+        <input type="text" v-model="msg">
+        <!-- 基于radio -->
+        <input type="radio" id="male" value="1" v-model="gender">男
+        <input type="radio" id="female" value="2" v-model="gender">女
+        <!-- 基于checkbox多选框的处理 -->
+        <input type="checkbox" value="1" v-model="hobby">游戏
+        <input type="checkbox" value="2" v-model="hobby">电影
+        <input type="checkbox" value="3" v-model="hobby">音乐
+        <!-- 基于select -->
+        <select name="" id="" v-model="city" multiple>
+            <!-- multiple是多选 -->
+            <option value="0">请选择城市</option>
+            <option value="1">北京</option>
+            <option value="2">上海</option>
+            <option value="3">广州</option>
+            <option value="4">深圳</option>
+        </select>
+        <!-- 基于textarea -->
+        <textarea name="" id="" cols="30" rows="10" v-model="text">
+
+        </textarea>
+        <!-- 基于提交按钮 -->
+        <button type="submit" @click.prevent="handle">提交</button>
+    </section>
+    <script>
+        var vm = new Vue({
+            el: '.input',
+            data: {
+                msg: 'text文本框',
+                gender: '2', //通过修改gender的值可以默认选择在那个选项框上
+                hobby: [1, 2], //因为是多选所以是数组的形式
+                city: [1, 2], //单选1
+                text: 'abcd',
+            },
+            methods: {
+                handle: function() {
+                    console.log('已提交')
+                }
+            },
+            watch: {
+                msg: function(val) {
+                    console.log(val)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
