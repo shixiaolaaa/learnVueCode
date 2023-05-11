@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <div class="section">
+        <input type="text" v-focus>
+    </div>
+    <script>
+        //全局自定义指令获取元素焦点
+        Vue.directive('focus', {
+            inserted: function(el) {
+                el.focus();
+            }
+        })
+        var vm = new Vue({
+            el: '.section',
+
+        })
+    </script>
+
+</body>
+
+</html>

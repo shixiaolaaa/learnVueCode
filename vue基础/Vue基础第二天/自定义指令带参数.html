@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+
+    <div class="section" v-color="{color:'pink'}">
+        粉红色
+    </div>
+    <script>
+        // el： 指令绑定的元素节点。
+        // binding： 包含以下属性的对象：
+        // name： 指令名称， 不包括 v - 前缀；
+        // value： 指令的绑定值， 例如： v - my - directive = "1 + 1"
+        // 中， 绑定值为 2；
+        Vue.directive('color', {
+            bind: function(el, binding) {
+                console.log(binding.value.color)
+            }
+        })
+        var vm = new Vue({
+            el: '.section',
+
+        })
+    </script>
+</body>
+
+</html>
