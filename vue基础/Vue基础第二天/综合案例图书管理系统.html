@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+    <style>
+        .section {
+            width: 500px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        table {
+            width: 100%;
+        }
+        
+        thead {
+            background-color: pink;
+        }
+        
+        td {
+            text-align: center;
+        }
+        
+        .addBooks {
+            width: 496px;
+            background-color: pink;
+            margin-bottom: -1px;
+            border: 1px solid;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding-left: 2px;
+        }
+        
+        .total {
+            width: 496px;
+            background-color: pink;
+            margin-bottom: -1px;
+            border: 1px solid;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            padding-left: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="section">
+        <div class="addBooks">
+            <form action="">
+                编号：<input type="text" v-model="addId" :disabled="flag" v-focus id="id"> 名称：
+                <input type="text" v-model="addname" id="name">
+                <button type="submit" @click.prevent="handle" :disabled="bntflag">添加</button>
+            </form>
+        </div>
+        <table border="1" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>名称</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in books" :key="item.id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.date}}</td>
+                    <td>
+                        <a href="" @click.prevent="fixed(item.id)">修改</a>|
+                        <a href="" @click.prevent="Delete(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+            <div class="total">图书总数:{{total}}</div>
+        </table>
+    </div>
+    <script>
+        //自定义指令获取焦点
+        Vue.directive('focus', {
+            inserted: function(el) {
+                el.focus()
+            }
+        });
+        var vm = new Vue({
+            el: '.section',
+            data: {
+                books: '',
+                addId: '',
+                addname: '',
+                flag: false,
+                bntflag: false,
+            },
+            methods: {
+                //删除图书
+                handle: function() {
+                    this.flag = false
+                    var book = {};
+                    book.id = this.addId;
+                    book.name = this.addname;
+                    this.books.push(book)
+                    this.addId = '';
+                    this.addname = ''
+                },
+                //修改图书
+                fixed: function(id) {
+                    var book = this.books.filter(function(item) {
+                        return item.id == id
+                    }); //filter为数组的方法，返回过滤后的新数组
+                    this.addId = book[0].id;
+                    this.addname = book[0].name;
+                    this.flag = true;
+                    //原则上不允许修改id此时id禁用使用disabled=true
+
+                },
+                //删除图书
+                Delete: function(id) {
+                    var book = this.books.findIndex(function(item) {
+                        return item.id == id;
+                    })
+                    console.log(book) //根据索引删除数组中元素
+                    this.books.splice(book, 1)
+                }
+            },
+            computed: {
+                //计算图书的数量
+                total() {
+                    return this.books.length
+                }
+            },
+            watch: {
+                //addname是创建的双向数据绑定v-model
+                addname: function(val) {
+                    var flag = this.books.some(function(item) {
+                        return item.name == val
+                    })
+                    console.log(flag)
+                    if (flag) {
+                        this.bntflag = true
+                    } else {
+                        this.bntflag = false
+                    }
+                }
+            },
+            //生命周期ajax调用后台接口拿到数据
+            mounted: function() {
+                //模拟Ajax拿到后台数据
+                var book = [{
+                    name: '三国演义',
+                    id: 1,
+                    date: ''
+                }, {
+                    name: '西游记',
+                    id: 2,
+                    date: ''
+                }, {
+                    name: '红楼梦',
+                    id: 3,
+                    date: ''
+                }, {
+                    name: '水浒传',
+                    id: 4,
+                    date: ''
+                }];
+                this.books = book
+            }
+
+        })
+    </script>
+</body>
+
+</html>
