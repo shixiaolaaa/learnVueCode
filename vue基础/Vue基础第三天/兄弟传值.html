@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <div>{{msg}}</div>
+        <tom-bnt></tom-bnt>
+        <jerry-bnt></jerry-bnt>
+    </div>
+    <script>
+        //创建事件中心来监听兄弟组件之间的传值
+        var hub = new Vue()
+        Vue.component('tom-bnt', {
+            data: function() {
+                return {
+                    num: 0
+                }
+            },
+            template: `
+            <div>
+                <div>TOM:{{num}}</div>
+                <button @click="handle">点击</button>
+            </div>
+            `,
+            methods: {
+                handle: function() {
+                    //触发jerry事件
+                    hub.$emit('jerry-event', 2)
+                }
+            },
+            mounted:
+            //监听tom事件
+                function() {
+                hub.$on('tom-event', (val) => {
+                    this.num += val
+                })
+
+            }
+        });
+        Vue.component('jerry-bnt', {
+            data: function() {
+                return {
+                    num: 0
+                }
+            },
+            template: `
+            <div>
+                <div>JERRY:{{num}}</div>
+                <button @click="handle">点击</button>
+            </div>
+            `,
+            methods: {
+                handle: function() {
+                    //触发tom事件
+                    hub.$emit('tom-event', 1)
+                }
+            },
+            mounted:
+            //监听jerry事件
+                function() {
+                hub.$on('jerry-event', (val) => {
+                    this.num += val
+                })
+            }
+
+        })
+
+        var vm = new Vue({
+            el: '.app',
+            data: {
+                msg: "这是父组件"
+            }
+        })
+    </script>
+</body>
+
+</html>

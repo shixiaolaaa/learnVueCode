@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <people :people="people">
+            <template slot-scope="slotprops">
+                <!-- template里面有一个属性slot-scope的值等于自定义一个名字,自定义名字的slotprops.item.id就等于组件里的值 -->
+                <strong v-if="slotprops.item.id==2">{{slotprops.item.name}}</strong>
+            </template>
+        </people>
+    </div>
+    <script>
+        Vue.component('people', {
+            props: ['people'],
+            //给模板里面的slot绑定一个值向外暴露给slot接收
+            template: `
+                <div>
+                    <li v-for='item in people' :key = "item.id">
+                        <slot :item='item'>
+                            {{item.name}}
+                        </slot>
+                    </li>
+                </div>
+            `
+        })
+        var vm = new Vue({
+            el: '.app',
+            data: {
+                people: [{
+                    id: 1,
+                    name: "zhansan"
+                }, {
+                    id: 2,
+                    name: "lisi"
+                }, {
+                    id: 3,
+                    name: "wangwu"
+                }]
+            }
+
+        })
+    </script>
+</body>
+
+</html>
