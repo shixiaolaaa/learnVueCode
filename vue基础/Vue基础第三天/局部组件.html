@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <hello-world></hello-world>
+    </div>
+    <!-- <div class="pp">
+        <hello-world></hello-world>
+    </div> -->
+    局部组件只能在注册他的父组件中使用
+
+    <script>
+        var hellow = {
+            data: function() {
+                return {
+                    msg: 'hello Vue component'
+                }
+            },
+            template: `<div>{{msg}}</div>`
+        }
+        var vm = new Vue({
+            el: '.app',
+            components: {
+                'hello-world': hellow,
+            }
+        });
+        // var um = new Vue({
+        //     el: '.pp'
+        // })
+    </script>
+</body>
+
+</html>

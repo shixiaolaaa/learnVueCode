@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <div :style='{fontSize:fontSize+"px"}'>{{msg}}</div>
+        <bnt @enlarge="handle"></bnt>
+        <!-- 事件绑定 -->
+    </div>
+    <script>
+        //子组件通过自定义事件向父组件传值
+        Vue.component('bnt', {
+            data: function() {
+                return {
+
+                }
+            },
+            template: `<button @click="$emit('enlarge')">点击放大父组件字体</button>` //模板引用$emit('自定义事件名称')
+        })
+        var vm = new Vue({
+            el: '.app',
+            data: {
+                msg: '这是父组件',
+                fontSize: 12,
+
+            },
+            methods: {
+                handle: function() {
+                    this.fontSize += 5
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
