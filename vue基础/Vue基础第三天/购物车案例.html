@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的购物车</title>
+    <script src="../../vue.js"></script>
+    <style>
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .myCar {
+            width: 500px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .title {
+            height: 50px;
+            background-color: pink;
+            text-align: center;
+            line-height: 50px;
+        }
+        
+        .set {
+            height: 50px;
+            background-color: yellow;
+            padding: 0 5px;
+            line-height: 50px;
+        }
+        
+        .setBnt {
+            margin-top: 5px;
+            float: right;
+            width: 80px;
+            height: 40px;
+            background-color: red;
+            border: 1px solid red;
+            color: yellow;
+        }
+        
+        .set span {
+            font-size: 20px;
+            color: red
+        }
+        
+        .list li {
+            background-color: #ccc;
+            padding: 0 5px;
+            height: 60px;
+            border-bottom: 1px solid black;
+            line-height: 50px;
+        }
+        
+        .goodshow {
+            height: 100%;
+            width: 30%;
+            background-color: #fff;
+            line-height: 60px;
+            float: left;
+            margin-right: 50px;
+        }
+        
+        .goodcount {
+            float: left;
+            width: 40%;
+            height: 100%;
+            line-height: 60px;
+        }
+        
+        .goodcount input {
+            width: 30px;
+            height: 20px
+        }
+        
+        .subbnt {
+            height: 20px;
+            width: 20px;
+        }
+        
+        .del button {
+            color: yellow;
+            float: right;
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            border: 1px solid red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="myCar">
+        <mycar></mycar>
+    </div>
+    <script>
+        //子组件
+        var carTitle = {
+            props: ['user'],
+            template: `
+                <div class="title">
+                    <h3>{{user}}的商品</h3>
+                </div>
+            `
+        };
+        var carList = {
+            props: ['gooddata'],
+            template: `
+                <div class="list">
+                    <ul>
+                        <li :key="gooddata.id" v-for="item in gooddata">
+                            <div class="goodshow">{{item.name}}图片无法加载</div>
+                            <div class="goodcount">
+                                <button class="subbnt" v-on:click='sub(item.id,$event)'>-</button>
+                                <input type="text" :value="item.num" v-on:blur='changenum(item.id,$event)'>
+                                <button v-on:click='add(item.id)'>+</button>
+                            </div>
+                            <div class="del">
+                                <button @click="$emit('good-del',item.id)">删除</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            `,
+            methods: {
+                changenum: function(id, event) {
+                    this.$emit('changeNum', {
+                            id: id,
+                            num: event.target.value,
+                            type: 'change'
+                        }) //传给父组件
+                },
+                add: function(id) {
+                    this.$emit('changeNum', {
+                        id: id,
+                        type: 'add'
+                    })
+                },
+                sub: function(id) {
+                    this.$emit('changeNum', {
+                        id: id,
+                        type: 'sub'
+                    })
+                },
+
+
+
+            }
+
+        };
+        var carSet = {
+                props: ['gooddata'],
+                template: `
+                    <div class="set">
+                        <span>总价：</span>
+                        <span>{{total}}</span>
+                        <button class="setBnt">结算</button>
+                    </div>
+                `,
+                computed: {
+                    total: function() {
+                        var t = 0;
+                        this.gooddata.forEach(item => {
+                            t += item.price * item.num
+                        });
+                        return t
+                    }
+                }
+            }
+            //父组件
+        Vue.component('mycar', {
+            data: function() {
+                return {
+                    user: 'lijie',
+                    gooddata: [{
+                        id: 1,
+                        num: 1,
+                        name: '冰箱',
+                        price: 1000
+                    }, {
+                        id: 2,
+                        num: 1,
+                        name: '空调',
+                        price: 1000
+                    }, {
+                        id: 3,
+                        num: 1,
+                        name: '电视',
+                        price: 1000
+                    }, {
+                        id: 4,
+                        num: 1,
+                        name: '电脑',
+                        price: 1000
+                    }, {
+                        id: 5,
+                        num: 1,
+                        name: '手机',
+                        price: 1000
+                    }, {
+                        id: 6,
+                        num: 1,
+                        name: '投影仪',
+                        price: 1000
+                    }]
+                }
+            },
+            template: `
+            <div class="myCar">
+                <car-title :user="user"></car-title>
+                <car-list :gooddata="gooddata" @good-del="handle($event)" @changeNum='handle2($event)'></car-list>
+                <car-set :gooddata="gooddata"></car-set>
+            </div>
+            `,
+            components: {
+                'car-title': carTitle,
+                'car-list': carList,
+                'car-set': carSet,
+            },
+            methods: {
+                handle: function(val) {
+                    //先根据id找到索引
+                    var index = this.gooddata.findIndex(function(item) {
+                        return item.id == val
+                    });
+                    //通过索引删除商品
+                    this.gooddata.splice(index, 1)
+                },
+                handle2: function(val) {
+                    if (val.type == 'change') {
+                        this.gooddata.some((item) => {
+                            if (item.id == val.id) {
+                                item.num = parseInt(val.num);
+                                return true;
+                            }
+                        })
+                    } else if (val.type == 'add') {
+                        this.gooddata.some((item) => {
+                            if (item.id == val.id) {
+                                item.num += 1
+                            }
+                        })
+                    } else {
+                        this.gooddata.some((item) => {
+                            if (item.id == val.id && item.num > 0) {
+                                item.num -= 1
+                            }
+                        })
+
+                    }
+
+
+                }
+            }
+        })
+        var vm = new Vue({
+            el: '.myCar',
+            data: {}
+        })
+    </script>
+</body>
+
+</html>
