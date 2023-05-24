@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //fetch是基于promise类似XMLhttprequest，但是比它更强大
+        console.dir(fetch);
+        //使用fetch发送get请求
+        fetch('http://localhost:3000/fdata?id = 123').then(function(data) {
+            return data.text() //text()返回的是一个promise实例对象
+        }).then(function(data) {
+            console.log(data) //最终结果
+        });
+        //使用fetch发送post请求
+        fetch('htto://localhost:3000/data2', {
+            method: 'post',
+            body: 'unmae = list & id = 2',
+            header: {
+                'content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function(data) {
+            console.log(data)
+        })
+    </script>
+</body>
+
+</html>
