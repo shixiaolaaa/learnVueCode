@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/vue.js"></script>
+</head>
+
+<body>
+    <!-- Axios 是一个基于 promise 网络请求库，作用于node.js 和浏览器中。
+     它是 isomorphic 的(即同一套代码可以运行在浏览器和node.js中)。在服务端它使用原生 node.js http 模块, 
+     而在客户端 (浏览端) 则使用 XMLHttpRequests。 -->
+    <script>
+        // axios发送get请求
+        axios({
+                url: 'http://data',
+                method: 'get',
+                params: {
+                    id: 1,
+                }
+            }).then(function(res) {
+                console.log(res.data)
+            })
+            //axios发送get请求
+        axios({
+            url: '',
+            data: {
+
+            },
+            method: 'post'
+        }).then(function(data) {
+            console.log(data.data)
+        });
+        //-----------------------------------------------------------
+        //axios全局配置
+        axios.defaults.timeout = 3000 //超时时间
+        axios.defaults.baseUrl = '' //设置根url地址
+        axios.defaults.headers['mytoken'] = ''; //设置请求头
+        //axios的拦截器
+        axios.interceptors.request.use(function(cinfig) {
+            config.headers.mytoken = 'nihao';
+            return config
+        })
+    </script>
+</body>
+
+</html>
