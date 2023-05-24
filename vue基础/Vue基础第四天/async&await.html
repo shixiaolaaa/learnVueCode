@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //async关键字用于函数上，返回一个promise实例对象
+        // await关键字用于async函数上可以得到异步结果
+        //比promise更加方便异步操作
+        async function querydata(id) {
+            var info = await setTimeout(function() {
+                console.log(1) //等1s才能显示
+            }, 1000)
+            var set = await setTimeout(function() {
+                console.log(2) //等1s才能显示
+            }, 1000)
+            return set //返回的是promise实例对象
+        }
+        querydata().then(function(data) {
+            console.log(data) //立即得到结果
+        })
+    </script>
+</body>
+
+</html>
