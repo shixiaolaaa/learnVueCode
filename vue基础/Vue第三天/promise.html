@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //promise是一个函数，本质是一个对象
+        // var p = new Promise(function(resolve, reject) {
+        //     setTimeout(function() {
+        //         var flag = false;
+        //         if (flag == true) {
+        //             resolve('正常情况');
+        //         } else {
+        //             reject('非正常情况');
+        //         }
+        //     }, 1000);
+        // });
+        // //通过.then来获取结果
+        // p.then(function(data) {
+        //     console.log(data)
+        // }, function(info) {
+        //     console.log(info)
+        // });
+        //promise是一个函数里面有两个参数一个正确情况一个错误情况，
+        //同时对应的then里有两个函数一个正确一个错误
+        //-------------------------------------------------------------
+        //基于promise发送Ajax请求
+        //这里的接口都是自编的，测试时请输入有效接口
+        function querydata(url) {
+            var xhr = new XMLHttpRequest()
+            var pms = new Promise(function(reslove, reject) {
+                xhr.open('get', url);
+                xhr.send();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        reslove(xhr.responseText)
+                    } else {
+                        reject('error')
+                    }
+                }
+            });
+            pms.then(function(data) {
+                console.log(data);
+            }, function(info) {
+                console.log(info)
+            });
+        };
+        querydata('http://www.liulongbin.top:3006/api/getbooks?id = 1')
+            //--------------------------------------------------------------------
+    </script>
+</body>
+
+</html>
