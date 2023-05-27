@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+    <script src="../../vue-router.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <router-link to="/tab1">tab1</router-link>
+        <router-link to="/tab2">tab2</router-link>
+        <router-view></router-view>
+    </div>
+    <script>
+        var tab1 = {
+            template: `
+                <h3>tab1子组件</h3>
+            `
+        };
+        var tab2 = {
+            template: `
+                <h3>tab2子组件</h3>
+            `
+        }
+        var router = new VueRouter({
+            routes: [{
+                path: '/',
+                redirect: '/tab1' //路由重定向
+            }, {
+                path: '/tab1',
+                component: tab1
+            }, {
+                path: '/tab2',
+                component: tab2
+            }]
+        })
+        var em = new Vue({
+            el: '.app',
+            router: router
+        })
+    </script>
+</body>
+
+</html>

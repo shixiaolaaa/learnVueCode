@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var strringArry = 'get - element - by - id';
+
+        function toCase(msg) {
+            var arr = msg.split('-');
+            console.log(arr)
+            for (var i = 1; i < arr.length; i++) {
+                arr[i] = arr[i].charAt(1).toUpperCase() + arr[i].substr(2, arr[i].length - 2);
+                console.log(arr[i])
+            };
+            console.log(arr)
+            msg = arr.join('')
+            return msg;
+        }
+        console.log(toCase(strringArry));
+        const arr = ['apple', 'banana', 'cherry'];
+        const str = arr.join('');
+        console.log(str); // 输出：'applebananacherry'
+        const st = 'abcde';
+        console.log(st.charAt(0)); // 输出："a"
+        console.log(st.charAt(2)); // 输出："c"
+        console.log(st.charAt(5)); // 输出：""
+    </script>
+</body>
+
+</html>

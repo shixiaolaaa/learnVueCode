@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+    <script src="../../vue-router.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <router-link to="/reg/tab1">tab1</router-link>
+        <router-link to="/reg/tab2">tab2</router-link>
+        <router-view></router-view>
+    </div>
+    <script>
+        // 创建路由实例对象
+        //定义两个子组件
+        var tab1 = {
+            template: `
+                <h3>tab1子组件</h3>
+              `
+        }
+        var tab2 = {
+            template: `
+                <h3>tab2子组件</h3>
+            `
+        };
+        //必须在上面定义
+        var router = new VueRouter({
+            routes: [{
+                path: '/reg/tab1',
+                component: tab1
+            }, {
+                path: '/reg/tab2',
+                component: tab2
+            }]
+        });
+
+        var vm = new Vue({
+            el: '.app',
+            router: router
+        });
+    </script>
+</body>
+
+</html>
