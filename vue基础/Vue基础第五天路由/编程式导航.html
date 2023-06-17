@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../vue.js"></script>
+    <script src="../../vue-router.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <!-- 像这种url参数有规律的可以动态匹配 -->
+        <router-link to="/reg/tab1/1">tab1</router-link>
+        <router-link to="/reg/tab2/2">tab2</router-link>
+        <router-view></router-view>
+    </div>
+    <script>
+        // 创建路由实例对象
+        //定义两个子组件
+        var tab1 = {
+            template: `
+            <div>
+                <button @click='handle2'>后退</button>
+                <button @click='handle'>点击跳转</button>
+                <h3>tab子组件{{$route.params.id}}</h3>
+            </div>
+              `,
+            methods: {
+                handle: function() {
+                    this.$router.push('/reg/tab2/2')
+                },
+                handle2: function() {
+                    this.$router.go(-1)
+                }
+            }
+        }
+        var tab2 = {
+            template: `
+                <h3>lijie的tab{{$route.params.id}}</h3>
+            `
+        };
+        //必须在上面定义
+        var router = new VueRouter({
+            routes: [{
+                path: '/reg/tab1/:id',
+                component: tab1
+            }, {
+                path: '/reg/tab2/:id',
+                component: tab2
+            }]
+        });
+
+        var vm = new Vue({
+            el: '.app',
+            router: router
+        });
+    </script>
+</body>
+
+</html>
